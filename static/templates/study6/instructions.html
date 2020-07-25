@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Instructions</title>
+        <base target="_self">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--stylesheets / link tags loaded here-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://surveyjs.azureedge.net/1.0.15/survey.css" type="text/css" rel="stylesheet"/>
+        <link href="{% static "css/study6/instructions.css" %}" rel="stylesheet">
+    </head>
+    <body >
+        <div class="container">
+            <div class="row">
+                <h1 class="text-center">Game Instructions</h1>
+                <p class="lead text-justify">
+                    Please read the instructions below carefully. Once you are done with reading the instructions,
+                    <span class="bolder">you will be asked to answer some questions about the instructions to ensure that you understood the task before playing the game</span>.
+                </p>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-5 border">
+                    <img class="img-responsive center-block" src={% static "images/study6/" %}{{gameplayImg}}>
+                </div>
+                <div class="col-lg-7 border" >
+                    <h2 class="featurette-heading-small">What is Your Task in this Game?</h2>
+
+                    <p class="lead text-justify">
+                        Your task in the game is to work with another partner (either another Mechanical Turk worker or an automated target detection system) to analyze 20 target vehicles on a map as quickly as possible in each of the five rounds of gameplay to identify dangerous vehicles.
+                    </p>
+
+                    <p class="lead text-justify">
+                        This task represents a real-life scenario where <strong>an operator (You, in this study)</strong> needs to use drones to monitor a large area, and work together with another partner (either another human operator or an automated system) to identify vehicles as dangerous or non-dangerous. This can help to more efficiently stop the dangerous criminals.
+                    </p>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12 border" >
+                    <h2 class="featurette-heading-small">Who will be Your Partner during the Gameplay?</h2>
+                    {% if partner == 'HUMAN'%}
+                        <p class="lead text-justify">
+                            We often have multiple Mechanical Turk workers signed in to participate in the study at the same time. <strong>In your case, we found another Mechanical Turk worker online who will be paired with you shortly to play the game together.</strong> You will act as the leader of the team and make the decisions regarding how many images each of you will analyze out of 20 images during each game round (explained later). You and your partner (the Mechanical Turk worker) will work on the images allocated to each of you. During the gameplay, you will be able to see him in the box next to Partner's Panel. Similarly, you will need to turn your camera on so that your partner can see you.
+                        </p>
+                    {% else %}
+                        <p class="lead text-justify">
+                            <strong>You will be paired with an automated target detection system to play the game together.</strong> You will act as the leader of the team and make the decisions regarding how many images each of you will analyze out of 20 images during each game round (explained later). You and your partner (the automated target detection system) will work on the images allocated to each of you.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-8 border" >
+                            <h2 class="featurette-heading-small" id="test1">
+                            Non-dangerous vehicles have only text on top of them.
+                            </h2>
+                        </div>
+                        <div class="col-lg-4 border">
+                            <img class="img-responsive center-block" src={% static "images/friendlyCar.PNG" %}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-4 border">
+                            <img class="img-responsive center-block" src={% static "images/enemyCar.PNG" %}>
+                        </div>
+                        <div class="col-lg-8 border" >
+                            <h2 class="featurette-heading-small">
+                            Dangerous vehicles have numbers in addition to text.
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-5 border" >
+                            <h2 class="featurette-heading-small">Operator's Panel</h2>
+                            <p class="lead text-justify">
+                                You will control the drone at the <strong>operator's panel</strong> (the left panel). The drone always begins at the lower left corner of the panel. To inspect an image, you first select one of the blue markers <img src="https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue.png"> on the map. After the drone arrives at the marker, the image will be shown in the vehicle identification panel on the right side of your screen. Use the "Zoom In" and "Zoom Out" buttons to inspect the image. Then, select "Yes" if the vehicle is dangerous or "No" if it is not. Then click on another marker to inspect the next image and repeat this process.
+                            </p>
+                        </div>
+                        <div class="col-lg-7 border">
+                            <!--   <img class="img-responsive center-block" src={% static "images/study6/" %}{{manualGif}}>      -->
+                            <video class="img-responsive center-block" muted autoplay loop style="margin-left: auto; margin-right: auto;">
+                                <source src={% static "images/study6/" %}{{manualGif}} type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-5 border" >
+                            <h2 class="featurette-heading-small">Partner's Panel</h2>
+                            <p class="lead text-justify">
+                                Your partner inspects the assigned images simultaneously. The drone at the <strong>partner's panel</strong> (the right panel) is controlled by your partner, and it moves between orange markers <img src="https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_orange.png"> on the map. Partner's drone always begins at the lower right corner of the panel.
+                            </p>
+                        </div>
+                        <div class="col-lg-7 border">
+                            <!-- <img class="img-responsive center-block" src={% static "images/study6/" %}{{automationGif}}> -->
+                            <video class="img-responsive center-block" muted autoplay loop style="margin-left: auto; margin-right: auto;">
+                                <source src={% static "images/study6/" %}{{automationGif}} type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-7 border" >
+                            <h2 class="featurette-heading-small">Allocating Images to the Partner</h2>
+                            <p class="lead text-justify">
+                                For each round, you will decide how many images to allocate to your partner to try to improve your score.
+                            </p>
+                            {% if partner == 'HUMAN' %}
+                                <p class="lead text-justify">
+                                    The green button will be disabled at the beginning. Once your partner signals ready for the next round,
+                                    the button will be enabled.
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-5 border">
+                            <!-- <img class="img-responsive center-block" src={% static "images/study6/" %}{{allocationGif}}> -->
+                            <video class="img-responsive center-block" muted autoplay loop style="margin-left: auto; margin-right: auto;">
+                                <source src={% static "images/study6/" %}{{allocationGif}} type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-7 border" >
+                            <h2 class="featurette-heading-small">Score Calculation</h2>
+
+                            <p class="lead text-justify">
+                                If targets are not quickly identified, criminals may be able to harm people before their vehicles are identified.
+                            </p>
+
+                            <p class="lead text-justify">
+                                If targets are incorrectly identified, resources may be inefficiently devoted to stopping innocent people instead of criminals.
+                            </p>
+
+                            <p class="lead text-justify">
+                                As a result, both <strong>speed</strong> and <strong>accuracy</strong> are important, and your Score for each round is based on both the speed and accuracy with which images are identified collectively by you and your partner.
+                            </p>
+
+                            <p class="lead text-justify">
+                                The score is calculated as follows:<br>
+                                <strong>Round score = (Accuracy Score + Time Score) / 2</strong>
+                                <br>
+
+                                <strong>Accuracy Score</strong> is calculated based on you and your partner's total correct identifications.
+                                <br>
+
+                                <strong>Time Score</strong> is calculated based on the time it takes to finish a round.
+                                <br>
+
+                            </p>
+
+                        </div>
+                        <div class="col-lg-5 border">
+                            <img class="img-responsive center-block" src={% static "images/score2.png" %}>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if risk == "High" and partner == "HUMAN" %}
+                                <p class="lead text-justify">
+                                    <strong>Each member of the top-10 scoring teams in your game condition will be awarded a $9.00 bonus. Thus, you can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams, you will not receive the $9.00 bonus. In that case, you will receive the base compensation of $3.00.</strong>
+                                </p>
+
+                            {% elif risk == "High" and partner == "ATD" %}
+                                <p class="lead text-justify">
+                                    <strong>The top-10 scoring teams in your game condition will be awarded a $9.00 bonus. Thus, you can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams, you will not receive the $9.00 bonus. In that case, you will receive the base compensation of $3.00.</strong>
+                                </p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div id="surveyBox" class="row" style="display: block">
+                <div class="col-lg-12">
+                    <h3 class="text-danger">Before proceeding to the next page, we would like you to answer the
+                    following questions to ensure you have understood the game that you are going to play.</h3>
+                </div>
+                <div class="col-lg-12 border" >
+                    <div id="surveyElement"></div>
+                </div>
+            </div>
+            <hr class="featurette-divider">
+        </div>
+        <!-- /.container -->
+        <script>
+        </script>
+        <!--scripts loaded here-->
+        <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.0.15/survey.jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
+        <script>
+        var static_url = "{% get_static_prefix %}";
+        var hash = '{{ hash|safe }}';
+        var enc = '{{ enc|safe }}';
+        var round = '{{ round|safe }}';
+        var partner = '{{ partner|safe }}';
+        var risk = '{{ risk|safe }}';
+        </script>
+        <script src="{% static "js/study6/instructions.js" %}"></script>
+    </body>
+</html>

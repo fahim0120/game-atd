@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Initial Message</title>
+        <base target="_self">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--stylesheets / link tags loaded here-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="{% static "css/study6/initalMessage.css" %}" rel="stylesheet">
+    </head>
+    <body >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8" id="message">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Message <i class="icon-envelope-alt"></i></h2>
+                        </div>
+                        <div class="panel-body" id="messageDiv" >
+                            <h3 id="introMessage"></h3>
+                            <div id="nextButtonDiv" class="text-right" style="display: none">
+                                <button id="next-button"  type="button" class="btn btn-primary">
+                                Next <i class="icon-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+
+
+            <div class="row" id="cameraPanel" style="display: none">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Allow Camera Permission <i class="icon-eye-open"></i></h2>
+                        </div>
+                        <div class="panel-body">
+                            <h3 class="text-primary">Allow the cemera permission to proceed. If you do not allow the permission you cannot continue.</h3>
+                            <h3 class="text-danger" id="cameraPermissionDeniedMessage" style="display: none">In case you have mistakenly denied the permission, please <br>(1) Open a new tab and go to chrome://settings/content/camera using search bar. <br>(2) Delete the entry gameatd.pythonanywhere.com from the block list. <br>(3) Come back and refresh this page.</h3>
+                            <div class="border">
+                                <video id="preview" class="img-responsive center-block" width="110" height="110" autoplay
+                                    style="margin-left: auto; margin-right: auto; width: 110px; height: 110px; object-fit: cover;">
+                                </video>
+                            </div>
+
+                            <div id="cameraNextButtonDiv" class="text-right" style="display: none">
+                                <button id="camera-next-button"  type="button" class="btn btn-primary">
+                                Next <i class="icon-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+
+
+            <div class="row">
+                <br>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <div class="panel panel-default" id="allocationDiv" style="display: none">
+                        <div class="panel-heading">
+                            <h2>Allocation for next Round <i class="icon-tasks"></i></h2>
+                        </div>
+                        <form id="ResultsInputForm"  action="/begin/{{ hash }}/{{ enc }}/{{ nextRound }}/" method="post">{% csrf_token %}
+                            <div class="panel-body">
+                                <h3 class="text-center" id="allocation-question">
+                                {{ allocationStatement }} {{ nextRound }}
+                                </h3>
+                                <p class="text-danger">(Drag the slider below)</p>
+                                <div class="row row-border-none">
+                                    <div class="col-xs-2"> <label style="margin: 10px" for="allocationToAutomation">Partner:</label> </div>
+                                    <div class="col-xs-8">
+                                        <div id="slider">
+                                            <div id="custom-handle" class="ui-slider-handle"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <input type="text" id="allocationToAutomation"  name="allocationToAutomation" size="1" class="orangeInputLabel">
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+
+                                <div class="row row-border-none" style="margin: 0px; padding: 0px;">
+                                    {% if partner == 'HUMAN' %}
+                                        <video class="img-responsive center-block" width="110" height="110" autoplay loop muted style="margin-left: auto; margin-right: auto;">
+                                            <source src={% static "images/study6/" %}{{ allocationGif }} type="video/mp4">
+                                        </video>
+                                    {% endif %}
+                                </div>
+
+                                <p>
+                                    <span id="waiting-txt" class="text-danger">Waiting for the partner's ready signal.</span>
+                                    <br>
+                                    <button type="button" id="begin-btn" class="btn btn-success btn-lg" onclick="return nextTrial()" disabled>
+                                    Save and Begin Round {{ nextRound }}  <i class="icon-arrow-right"></i>
+                                    </button>
+                                    <div id="dialog-confirm" title="Are you sure?" style="display: none">
+                                        <p id="dialog-confirm-text"></p>
+                                    </div>
+                                </p>
+                            </div>
+                            <input id="durationMessage"  type="hidden" name = "durationMessage" >
+                            <input id="durationAllocation"  type="hidden" name = "durationAllocation" >
+                            <input id="recordDate"  type="hidden" name = "recordDate" >
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+        <!-- /.container -->
+        <div id="overlay"></div>
+        <script>
+        </script>
+        <!--scripts loaded here-->
+        <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typeit/5.10.2/typeit.min.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+        <script src="{% static "js/study6/initialMessage.js" %}"></script>
+        <script>
+        var static_url = "{% get_static_prefix %}";
+        var hash = '{{ hash|safe }}';
+        var enc = '{{ enc|safe }}';
+        var round = '{{ round|safe }}';
+        var messageTxt = '{{ messageTxt|escapejs }}';
+        var partner = '{{ partner|escapejs }}';
+        var nextRound = '{{ nextRound|safe }}';
+        </script>
+    </body>
+</html>

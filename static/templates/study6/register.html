@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <base target="_self">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+
+    <!--stylesheets / link tags loaded here-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+      <link href="{% static "css/study6/register.css" %}" rel="stylesheet">
+
+</head>
+<body >
+
+<div class="container">
+    <div class="login">
+        <h4>Registration Form</h4>
+        <hr>
+
+
+
+        <form class="login-inner" action="/register/" method="post">{% csrf_token %}
+
+            {% if error %}
+                <p class="errorText">{{ error }}</p>
+            {% endif %}
+
+            <label for="mTurkId-input">MTurkID</label>
+            <input type="text" class="form-control" id="mTurkId-input" name="mTurkId" placeholder="Enter your mTurkId" required="" autofocus="" />
+
+            <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="I want to participate in the study">
+
+
+
+        </form>
+
+    </div>
+</div>
+
+<!-- /.container -->
+
+
+
+<!--scripts loaded here-->
+
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

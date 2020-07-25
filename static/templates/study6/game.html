@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game</title>
+        <base target="_self">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--stylesheets / link tags loaded here-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href="{% static "css/study6/game-css.css" %}" rel="stylesheet">
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbeYekdr0w9ZiimTRGC_rBcTBShNKKalI&sensor=false&libraries=geometry">
+        </script>
+
+        <!-- Include Video.js stylesheet (https://videojs.com/) -->
+        <link href="../node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
+
+        <!-- Style of VideoJS -->
+        <link href="../dist/css/videojs.record.css" rel="stylesheet">
+
+    </head>
+    <body >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
+                    <h2>Target Identification Task </h2>
+                    <p>Round-{{ round }}</p>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 redBorder">
+                    <h4 class="text-center text-danger"> Time remaining <i class="icon-time"></i></h4>
+                    <h2 class="text-center text-danger" id="timer"></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center text-primary blackBorder" style="margin: 0px; padding: 0px;">
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
+                                {% if partner == 'HUMAN'%}
+                                    <video id="preview" class="img-responsive center-block" width="110" height="110" autoplay loop
+                                    style="margin-left: auto; margin-right: auto; width: 110px; height: 110px; object-fit: cover;">
+                                    </video>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px; vertical-align: middle;">
+                                <h3>Operator's<br>Panel</h4>
+                                <h4 id="manualAccScore">Accuracy: 0/0</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center text-warning blackBorder" style="margin: 0px; padding: 0px;">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px; vertical-align: middle;">
+                                <h3>Partner's<br>Panel</h4>
+                                <h4 id="automationAccScore">Accuracy: 0/0</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
+                                {% if partner == 'HUMAN' %}
+                                    <video class="img-responsive center-block" width="110" height="110" autoplay loop style="margin-left: auto; margin-right: auto;">
+                                        <source src={% static "images/study6/" %}{{agentGif}} type="video/mp4">
+                                    </video>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="manualImageTiles">
+                        <div class="map-div">
+                            <div id="mapCanvas" class="map"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-6 col-md-6 col-sm-6 col-xs-12-->
+                <div id="vehicleIdentificationPlaceHolder" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center" >
+                    <p> <strong>Vehicle Identification</strong></p>
+                    <div class="col-fixed" id="imageDiv2">
+                        <h2>Click on a marker on the left panel to examine </h2>
+                    </div>
+                </div>
+                <!-- /.col-lg-6 col-md-6 col-sm-6 col-xs-12-->
+                <div id="vehicleIdentification" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center" style="display: none">
+                    <p> <strong>Vehicle Identification</strong></p>
+                    <div class="col-fixed" id="imageDiv">
+                        <!-- Image zoom IN/OUT Area-->
+                    </div>
+                    <div id="zoomButtonDiv">
+                        <p>
+                            <button type="button" class="btn btn-info" onclick="zoomIn()">
+                            <i class="icon-zoom-in"></i> Zoom In
+                            </button>
+                            <button type="button" class="btn btn-info" onclick="zoomOut()">
+                            <i class="icon-zoom-out"></i> Zoom Out
+                            </button>
+                            <button type="button" class="btn btn-info" onclick="rotate()">
+                            <i class="icon-repeat"></i> Rotate
+                            </button>
+                        </p>
+                    </div>
+                    <div id="decisionDiv">
+                        <p> Is this vehicle dangerous?</p>
+                        <p>
+                            <button id="decision-yes-btn" type="button" class="btn btn-success" onclick="decisionYesNo('yes')">
+                            <i class="icon-check"></i> Yes
+                            </button>
+                            <button id="decision-no-btn" type="button" class="btn btn-danger" onclick="decisionYesNo('no')">
+                            <i class="icon-ban-circle"></i> No
+                            </button>
+                        </p>
+                    </div>
+                    <div id="alertMaxMinZoomLevel" style="display: none"></div>
+                </div>
+                <!-- /.col-sm-10 -->
+            </div>
+            <!-- /.row -->
+            <form id="ImageInputForm"  action="/next/{{ hash }}/{{ enc }}/{{ round }}/" method="post">{% csrf_token %}
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success btn-lg" onclick="return nextTrial()" style="display: none">
+                    Next  <i class="icon-arrow-right"></i>
+                    </button>
+                    <input type="hidden" name="Data" value="">
+                </div>
+            </form>
+            <div id="dialog-confirm" title="Are you sure?" style="display: none">
+                <p id="dialog-confirm-text"></p>
+            </div>
+        </div>
+        <!-- /.container -->
+        <!-- /.container -->
+        <!--scripts loaded here-->
+        <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdn.rawgit.com/jylauril/jquery-runner/master/build/jquery.runner.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+        <script>
+        var static_url = "{% get_static_prefix %}";
+        var round = {{ round }};
+        var numImgToManual = {{ numImgToManual }};
+        var numImgToAuto = {{ numImgToAuto }};
+        var numImgNotProcessed = {{ numImgNotProcessed }};
+        var partner = '{{ partner }}';
+        var autoSpeed = {{ autoSpeed }};
+        </script>
+        <script src="{% static "js/study6/game-js.js" %}"></script>
+    </body>
+</html>

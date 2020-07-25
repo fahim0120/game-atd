@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <base target="_self">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--stylesheets / link tags loaded here-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link href="{% static "css/game.min.css" %}" rel="stylesheet">
+
+</head>
+<body >
+
+<div class="example">
+
+    <h2>Results of Round-{{ prevRound }}</h2>
+
+    <div class="container">
+
+    <div class="row">
+
+
+        <br>
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Results <i class="icon-bar-chart"></i></h2>
+                </div>
+                <div class="panel-body ">
+
+                    <table class="table table-bordered">  <!--table-condensed-->
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">You</th>
+                            <th scope="col">ATD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Number of Images Allocated</th>
+                            <td> <span class="badge">{{ numImgAllocatedManual }}</span> <i class="icon-picture text-warning"></i> </td>
+                            <td> <span class="badge">{{ numImgAllocatedAuto }}</span> <i class="icon-picture text-warning"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Number of Images Correct</th>
+                            <td><span class="badge">{{ numImgCorrectManual }}</span> <i class="icon-ok-sign text-success"></i> </td>
+                            <td><span class="badge">{{ numImgCorrectAuto|floatformat:0 }}</span> <i class="icon-ok-sign text-success"></i> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Number of Images Incorrect</th>
+                            <td><span class="badge">{{ numImgIncorrectManual }}</span> <i class="icon-remove-sign text-danger"></i> </td>
+                            <td><span class="badge">{{ numImgIncorrectAuto|floatformat:0 }}</span> <i class="icon-remove-sign text-danger"></i> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total Time</th>
+                            <td><span class="badge">{{ totalTimeManual|floatformat:1 }} sec</span> <i class="icon-time text-primary"></i> </td>
+                            <td><span class="badge">{{ totalTimeAuto|floatformat:1 }} sec</span> <i class="icon-time text-primary"></i> </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Average Time per Image</th>
+                            <td><span class="badge">{{ avgTimeManual|floatformat:1  }} sec</span> <i class="icon-time text-primary"></i> </td>
+                            <td><span class="badge">{{ avgTimeAuto|floatformat:1  }} sec</span> <i class="icon-time text-primary"></i> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <p>
+                        <h3 class="text-center">Total Score: <strong> {{ score1|floatformat:1  }} </strong></h3>
+                    </p>
+
+
+
+                    <div class="text-right">
+                        <button id="results-button"  type="button" class="btn btn-primary" disabled="true">
+                            Next <span id="results-next-timer"  class="badge badge-light">Wait!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Message <i class="icon-envelope-alt"></i></h2>
+                </div>
+                <div class="panel-body" id="messageDiv" style="display: none">
+                    <h3> {{ message }}</h3>
+
+                    <div class="text-right">
+                        <button id="message-button"  type="button" class="btn btn-primary" disabled="true">
+                            Next <span id="message-next-timer"  class="badge badge-light">Wait!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+
+
+     <!--<br>-->
+
+     <div class="row">
+         <br>
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-8">
+
+             <div class="panel panel-default" id="allocationDiv" style="display: none">
+                 <div class="panel-heading">
+                     <h2>Allocation for next Round <i class="icon-tasks"></i></h2>
+                 </div>
+
+                 <form id="ResultsInputForm"  action="/begin/{{ hash }}/{{ enc }}/{{ nextRound }}/" method="post">{% csrf_token %}
+                     <div class="panel-body">
+
+                        <p> <h3 class="text-center">In Round-{{ nextRound }}, there will be 20 images to examine dangerous vehicles.
+                         How many images do you want to assign to the Automation in Round-{{ nextRound }}? </h3></p>
+                         <p class="text-danger">(Drag the slider below)</p>
+
+                         <p>
+                             <label for="allocationToAutomation">Automation:</label>
+                             <input type="text" id="allocationToAutomation"  name = "allocationToAutomation" style="border:0; color:#f6931f; font-weight:bold;">
+                         </p>
+                         <p>
+                             <label for="allocationToManual">Manual:</label>
+                             <input type="text" id="allocationToManual"  name = "allocationToManual" style="border:0; color:#f6931f; font-weight:bold;">
+                         </p>
+
+                         <div id="slider-range"></div>
+
+                         <br>
+
+                         <p>
+                             <button type="button" class="btn btn-success btn-lg" onclick="return nextTrial()">
+                                 Save and Begin Round-{{ nextRound }}  <i class="icon-arrow-right"></i>
+                             </button>
+                            <div id="dialog-confirm" title="Are you sure?" style="display: none">
+                                <p id="dialog-confirm-text"></p>
+                            </div>
+                         </p>
+                     </div>
+
+                     <input id="durationResults"  type="hidden" name = "durationResults"  >
+                     <input id="durationMessage"  type="hidden" name = "durationMessage" >
+                     <input id="durationAllocation"  type="hidden" name = "durationAllocation" >
+                     <input id="durationPage"  type="hidden" name = "durationPage" >
+                     <input id="recordDate"  type="hidden" name = "recordDate" >
+
+
+                 </form>
+             </div>
+
+
+
+<!--             <div class="text-right">
+
+                 <button type="button" class="btn btn-success btn-lg" onclick="nextTrial()">
+                     Begin Round-2  <i class="icon-arrow-right"></i>
+                 </button>
+
+             </div>-->
+
+         </div>
+
+        <div class="col-lg-2"></div>
+
+
+     </div>
+</div>
+    <!-- /.container -->
+
+</div>
+<!-- /.container -->
+
+<script>
+
+</script>
+
+<!--scripts loaded here-->
+
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script src="{% static "js/results.min.js" %}"></script>
+
+</body>
+</html>
