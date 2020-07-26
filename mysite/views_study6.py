@@ -260,7 +260,7 @@ def begin(request, hash, enc, round):
         'round': round,
         'numImgToManual': numImgToManual,
         'numImgToAuto': numImgToAuto,
-        'numImgNotProcessed': getAutomationCorrectness(int(numImgToAuto), int(groupId))[1],
+        'numImgNotProcessed': getAutomationCorrectness(int(numImgToAuto), int(groupId), int(round))[1],
         'partner': partner,
         'agentGif': agentGif,
         'autoSpeed': getAvgAutomationTime(1, int(round))*1000,
@@ -336,7 +336,7 @@ def recordAnswers(request, hash, enc, round):
         if numImgAllocatedManual > 0:
             avgTimeManual = float(finishTimeManual) / numImgAllocatedManual
 
-        numImgCorrectAuto, numImgIncorrectAuto = getAutomationCorrectness(numImgAllocatedAuto, groupId)
+        numImgCorrectAuto, numImgIncorrectAuto = getAutomationCorrectness(numImgAllocatedAuto, groupId, int(round))
 
         avgTimeAuto = getAvgAutomationTime(numImgAllocatedAuto, int(round))
         totalTimeAuto = numImgAllocatedAuto * avgTimeAuto
@@ -345,7 +345,7 @@ def recordAnswers(request, hash, enc, round):
         if totalTimeAuto > 120:
             totalTimeAuto = min(totalTimeAuto, 120)
             autoCheckedImages = math.floor(120 / avgTimeAuto)
-            numImgCorrectAuto = math.ceil(autoCheckedImages * getGroupReliability(int(groupId)))
+            numImgCorrectAuto = math.ceil(autoCheckedImages * getGroupReliability(int(groupId), int(round)))
             numImgIncorrectAuto = numImgAllocatedAuto - numImgCorrectAuto
 
         percentCorrect = float(numImgCorrectManual + numImgCorrectAuto)/float(numImgAllocatedManual + numImgAllocatedAuto)
@@ -663,8 +663,8 @@ def scoreCalculation2(numImgAllocatedAuto, groupId):
 
 
 # 05-07-20 03:10 PM
-def getAutomationCorrectness(numImgAllocatedAuto, groupId):
-    numImgCorrectAuto = math.floor(int(numImgAllocatedAuto) * getGroupReliability(int(groupId)))
+def getAutomationCorrectness(numImgAllocatedAuto, groupId, round):
+    numImgCorrectAuto = math.floor(int(numImgAllocatedAuto) * getGroupReliability(int(groupId), int(round)))
     numImgIncorrectAuto = int(numImgAllocatedAuto) - numImgCorrectAuto
     return numImgCorrectAuto, numImgIncorrectAuto
 
@@ -685,12 +685,14 @@ def getAvgAutomationTime(numImgAllocatedAuto, round):
 
 
 # 05-07-20 05:00 AM
-def getGroupReliability(groupId):
+def getGroupReliability(groupId, round):
 
     #shift = (random.randrange(11) - 5) / 100.0
+    noises = [0.04, -0.05, 0.01, -0.04, 0.04]
+    shift = noises[int(round) - 1]
 
-    highReliability = 0.9 #+ shift
-    lowReliability = 0.6 #+ shift
+    highReliability = 0.9 + shift
+    lowReliability = 0.6 + shift
     messageObj = MessagePool.objects.get(groupId=groupId)
     groupReliability = messageObj.groupReliability
 
