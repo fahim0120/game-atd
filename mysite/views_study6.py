@@ -117,12 +117,15 @@ def viewInstructionRiskPage(request, hash, enc, round):
         risk = 'Low'
 
     if risk == 'Low':
-        risk_msg = '<strong>You will earn a compensation of $3.00 for completing this study.</strong>'
+        if partner == 'HUMAN':
+            risk_msg = '<strong>Each member of your team can earn $5.00 based on your total score. However, if you are not one of the top 50% scoring teams in your game condition, you will receive $4.00. You have $1.00 at stake.</strong>'
+        else:
+            risk_msg = '<strong>You can earn $5.00 based on your total score. However, if you are not one of the top 50% scoring teams in your game condition, you will receive $4.00. You have $1.00 at stake.</strong>'
     else:
         if partner == 'HUMAN':
-            risk_msg = '<strong>Each member of your team can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams in your game condition, you will not receive the $9.00 bonus.</strong>'
+            risk_msg = '<strong>Each member of your team can earn $5.00 based on your total score. However, if you are not one of the top 50% scoring teams in your game condition, you will receive $2.00. You have $3.00 at stake.</strong>'
         else:
-            risk_msg = '<strong>You can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams in your game condition, you will not receive the $9.00 bonus.</strong>'
+            risk_msg = '<strong>You can earn $5.00 based on your total score. However, if you are not one of the top 50% scoring teams in your game condition, you will receive $2.00. You have $3.00 at stake.</strong>'
 
     risk_msg = mark_safe(risk_msg)
 
@@ -526,10 +529,12 @@ def checkInstructionRiskCorrectness(request):
     if request.method == 'POST':
         question1 = request.POST['question1']
         question2 = request.POST['question2']
+        question3 = request.POST['question3']
 
         answer = {
             "question1": question1,
             "question2": question2,
+            "question3": question3,
             }
 
         # TODO create database and then check
@@ -549,9 +554,12 @@ def checkInstructionRiskCorrectness(request):
         if question1 == partner:
             numberOfCorrect += 1
 
-        if risk == 'Low' and question2 == 'option1':
+        if question2 == 'option4':
             numberOfCorrect += 1
-        elif risk == 'High' and question2 == 'option4':
+
+        if risk == 'Low' and question3 == 'option1':
+            numberOfCorrect += 1
+        elif risk == 'High' and question3 == 'option3':
             numberOfCorrect += 1
 
 

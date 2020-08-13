@@ -199,13 +199,23 @@
                     <div class="row">
                         <div class="col-lg-12">
                             {% if risk == "High" and partner == "HUMAN" %}
-                                <p class="lead text-justify">
-                                    <strong>Each member of the top-10 scoring teams in your game condition will be awarded a $9.00 bonus. Thus, you can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams, you will not receive the $9.00 bonus. In that case, you will receive the base compensation of $3.00.</strong>
+                                <p class="lead text-justify text-danger">
+                                    <strong>We will recruit at most 40 teams in your experimental group. Each member of the top 50% scoring teams in your group will receive $5.00. If you are not one of the top 50% scoring teams, you will receive $2.00. Therefore, your goal in this game is to correctly identify as many vehicles as possible in the shortest amount of time and try to be in the top 50% scoring teams to earn $5.00. Remember, you have $3.00 at stake.</strong>
                                 </p>
 
                             {% elif risk == "High" and partner == "ATD" %}
-                                <p class="lead text-justify">
-                                    <strong>The top-10 scoring teams in your game condition will be awarded a $9.00 bonus. Thus, you can earn a maximum of $12.00 based on your total score. However, if you are not one of the top-10 scoring teams, you will not receive the $9.00 bonus. In that case, you will receive the base compensation of $3.00.</strong>
+                                <p class="lead text-justify text-danger">
+                                    <strong>We will recruit at most 40 teams in your experimental group. The top 50% scoring teams in your group will receive $5.00. If you are not one of the top 50% scoring teams, you will receive $2.00. Therefore, your goal in this game is to correctly identify as many vehicles as possible in the shortest amount of time and try to be in the top 50% scoring teams to earn $5.00. Remember, you have $3.00 at stake.</strong>
+                                </p>
+
+                            {% elif risk == "Low" and partner == "HUMAN" %}
+                                <p class="lead text-justify text-danger">
+                                    <strong>We will recruit at most 40 teams in your experimental group. Each member of the top 50% scoring teams in your group will receive $5.00. If you are not one of the top 50% scoring teams, you will receive $4.00. Therefore, your goal in this game is to correctly identify as many vehicles as possible in the shortest amount of time and try to be in the top 50% scoring teams to earn $5.00. Remember, you have $1.00 at stake.</strong>
+                                </p>
+
+                            {% elif risk == "Low" and partner == "ATD" %}
+                                <p class="lead text-justify text-danger">
+                                    <strong>We will recruit at most 40 teams in your experimental group. The top 50% scoring teams in your group will receive $5.00. If you are not one of the top 50% scoring teams, you will receive $4.00. Therefore, your goal in this game is to correctly identify as many vehicles as possible in the shortest amount of time and try to be in the top 50% scoring teams to earn $5.00. Remember, you have $1.00 at stake.</strong>
                                 </p>
                             {% endif %}
                         </div>
