@@ -59,10 +59,11 @@ function previewVideo() {
         });
 
         recorder.stream = stream;
-        document.getElementById("cameraNextButtonDiv").style.display = "block"
+        document.getElementById("cameraNextButtonDiv").style.display = "block";
     }).catch(function(error) {
         console.error("Cannot access media devices: ", error);
-        document.getElementById("cameraPermissionDeniedMessage").style.display = "block";
+        //document.getElementById("cameraPermissionDeniedMessage").style.display = "block";
+        document.getElementById("cameraNextButtonDiv").style.display = "block";
     });
 
 }

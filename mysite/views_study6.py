@@ -802,6 +802,20 @@ def getGroupIdFromMTurkId(mTurkId):
 
 
 # 05-05-20 07:50 AM
+'''
+Low  Reliabilty Low  Risk Automation = 1
+Low  Reliabilty Low  Risk Human      = 2
+Low  Reliabilty High Risk Automation = 3
+Low  Reliabilty High Risk Human      = 4
+High Reliabilty Low  Risk Automation = 5
+High Reliabilty Low  Risk Human      = 6
+High Reliabilty High Risk Automation = 7
+High Reliabilty High Risk Human      = 8
+
+Low  Risk = {0: 1, 1: 2, 2: 5, 3: 6,}
+High Risk = {0: 3, 1: 4, 2: 7, 3: 8,}
+
+'''
 @csrf_exempt
 def assignGroupNumber():
 	# TODO: improve this method!
