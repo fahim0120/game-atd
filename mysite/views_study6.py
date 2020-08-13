@@ -19,6 +19,7 @@ from models import Users, Response, ImagePool, Results, MessagePool, Instruction
 import collections
 
 my_secret = "AQKLYUFGPOAQQVBN2)?GHsasqqjjhh"
+RISK_GROUP = "HIGH"
 
 # 05-05-20 07:50 AM
 def register_user(request):
@@ -50,7 +51,11 @@ def register_user(request):
 def viewInfoSheetPage(request):
     #return HttpResponse("Thank you for your interest in participating in this study. However, we are not currently recruiting any participants for this study, please check back later!")
     context = {}
-    template = 'study6/infoSheet.html'
+
+    if RISK_GROUP == "HIGH":
+        template = 'study6/infoSheet-HIGH.html'
+    else:
+        template = 'study6/infoSheet-LOW.html'
     return render(request, template, context)
 
 
@@ -827,9 +832,21 @@ High Risk = {0: 3, 1: 4, 2: 7, 3: 8,}
 @csrf_exempt
 def assignGroupNumber():
 	# TODO: improve this method!
+    """
     numberOfGroups = 8
     numberOfUsers = Users.objects.all().count()
     return (numberOfUsers % numberOfGroups) + 1
+    """
+    numberOfUsers = Users.objects.all().count()
+    t = numberOfUsers % 4
+
+    low_dict = {0: 1, 1: 2, 2: 5, 3: 6,}
+    high_dict = {0: 3, 1: 4, 2: 7, 3: 8,}
+
+    if RISK_GROUP == "HIGH":
+        return high_dict[t]
+    else:
+        return low_dict[t]
 
 
 

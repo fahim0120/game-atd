@@ -29,7 +29,7 @@ function displayConsentQuestions() {
             title: " ",
             choices: [{
                 value: "option1",
-                text: "I have read the above information, and understand that, I will need to turn on my camera and share my video with another Mechanical Turk worker in case I am selected to interact with another Mechanical Turk worker during the gameplay. I certify that I am 18 years old or older and give consent to participate in the study."
+                text: "I have read the above information, I certify that I am 18 years old or older, and give consent to participate in the study."
             }, {
                 value: "option2",
                 text: "I choose not to participate in this study."
