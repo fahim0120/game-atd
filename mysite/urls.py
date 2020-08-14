@@ -137,6 +137,7 @@ urlpatterns = [
     url(r'^checkInstructionRiskQuestions/$', views.checkInstructionRiskCorrectness),
     url(r'^instructionRisk/(?P<hash>.+)/(?P<enc>.+)/(?P<round>\d+)/$', views.viewInstructionRiskPage),
     url(r'^initialMessage/(?P<hash>.+)/(?P<enc>.+)/(?P<round>\d+)/$', views.viewInitialMessage),
+    url(r'^recordCameraPermission/$', views.recordCameraPermission),
 
     ####
     #url(r'^add_images/$',views.addImagesToDb),

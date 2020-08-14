@@ -14,7 +14,7 @@ import random
 from django.db.models import Count
 from django.template.context_processors import csrf
 from django.utils.safestring import mark_safe
-from models import Users, Response, ImagePool, Results, MessagePool, InstructionPageResults, Score, ConsentPageResults
+from models import Users, Response, ImagePool, Results, MessagePool, InstructionPageResults, Score, ConsentPageResults, CameraPermission
 
 import collections
 
@@ -582,6 +582,31 @@ def checkInstructionRiskCorrectness(request):
     else:
         return HttpResponse("Request is not a post!")
 
+
+# 08-13-20 09:20 PM
+@csrf_exempt
+def recordCameraPermission(request):
+    """
+    Internally called using ajax. No template associated.
+    """
+
+    if request.method == 'POST':
+        yes_no = request.POST['yes_no']
+
+        # TODO create database and then check
+        mTurkId = decode_data(request.POST['hash'],request.POST['enc'])[0]
+        groupId = int(getGroupIdFromMTurkId(mTurkId))
+
+        CameraPermission.objects.create(
+            mTurkId=mTurkId,
+            groupId=groupId,
+            cameraPermitted=yes_no,
+            recordDate=datetime.now()
+            )
+
+        return HttpResponse('ok')
+    else:
+        return HttpResponse("Request is not a post!")
 
 # 05-05-20 07:50 AM
 @csrf_exempt

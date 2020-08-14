@@ -144,6 +144,16 @@ class InstructionPageResults(models.Model):
     recordDate = models.DateTimeField()
 
 
+class CameraPermission(models.Model):
+    """
+    Stores whether the camera permission was allowed.
+    """
+    mTurkId = models.CharField(max_length=200)
+    groupId = models.CharField(max_length=200)
+    cameraPermitted = models.CharField(max_length=20)
+    recordDate = models.DateTimeField()
+
+
 class ConsentPageResults(models.Model):
     """
 

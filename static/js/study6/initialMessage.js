@@ -60,10 +60,41 @@ function previewVideo() {
 
         recorder.stream = stream;
         document.getElementById("cameraNextButtonDiv").style.display = "block";
+
+        $.ajax({
+            url: "/recordCameraPermission/",
+            type: "POST",
+            data: {
+                hash: hash,
+                enc: enc,
+                yes_no: 'yes'
+            },
+            success: function(e) {
+                //"3" == e ? window.location = "/initialMessage/" + hash + "/" + enc + "/" + round + "/" : "2" == e ? alert("1 of your answer is not correct. Please read the instructions above and then answer the questions again.") : alert(3 - parseInt(e) + " of your answers are not correct. Please read the instructions above and then answer the questions again.")
+            },
+            error: function(e, t, o) {}
+        })
+
+
     }).catch(function(error) {
         console.error("Cannot access media devices: ", error);
         //document.getElementById("cameraPermissionDeniedMessage").style.display = "block";
         document.getElementById("cameraNextButtonDiv").style.display = "block";
+
+        $.ajax({
+            url: "/recordCameraPermission/",
+            type: "POST",
+            data: {
+                hash: hash,
+                enc: enc,
+                yes_no: 'no'
+            },
+            success: function(e) {
+                //"3" == e ? window.location = "/initialMessage/" + hash + "/" + enc + "/" + round + "/" : "2" == e ? alert("1 of your answer is not correct. Please read the instructions above and then answer the questions again.") : alert(3 - parseInt(e) + " of your answers are not correct. Please read the instructions above and then answer the questions again.")
+            },
+            error: function(e, t, o) {}
+        })
+
     });
 
 }
