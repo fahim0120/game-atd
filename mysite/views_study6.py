@@ -710,7 +710,7 @@ def getAutomationCorrectness(numImgAllocatedAuto, groupId, round):
 # 07-12-20 08:46 PM
 def getAvgAutomationTime(numImgAllocatedAuto, round):
     #speeds = [9.1, 7.5, 6.9, 6.7, 6.5]
-    noise = random.randrange(0, 11) / 10.0  # a random number [0.0, 1.0]
+    noise = random.randrange(0, 101) / 100.0  # a random number [0.00, 1.00]
     noise -= 0.50                           # a random number [-0.5, 0.5]
 
     speed = 5
